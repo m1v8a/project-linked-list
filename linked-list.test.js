@@ -2,7 +2,11 @@ const LinkedList = require("./index.js");
 
 let list = null;
 beforeEach(() => {
-  list = new LinkedList(1);
+  list = new LinkedList();
+
+  for (let i = 1; i <= 5; i++) {
+    list.append(i);
+  }
 
   emptyList = new LinkedList();
 });
@@ -20,10 +24,10 @@ describe("Linked List", () => {
   });
 
   it("returns the size of the list, '0' if list is empty", () => {
-    list.append(2);
-    expect(list.size()).toBe(2);
-    list.append(3);
-    expect(list.size()).toBe(3);
+    expect(list.size()).toBe(5);
+
+    list.append(25);
+    expect(list.size()).toBe(6);
 
     expect(emptyList.size()).toBe(0);
   });
@@ -44,9 +48,6 @@ describe("Linked List", () => {
   });
 
   it("returns value at given index, 'undefined' if list is empty or no node on given index", () => {
-    for (let i = 2; i <= 5; i++) {
-      list.append(i);
-    }
     expect(list.at(1)).toBe(2);
     expect(list.at(3)).toBe(4);
 
@@ -57,9 +58,6 @@ describe("Linked List", () => {
   });
 
   it("pops/removes the last item on the list, 'undefined' if list is empty", () => {
-    for (let i = 2; i <= 5; i++) {
-      list.append(i);
-    }
     expect(list.pop()).toBe(1);
     expect(list.head()).toBe(2);
 
@@ -67,14 +65,42 @@ describe("Linked List", () => {
   });
 
   it("contains the given value", () => {
-    for (let i = 2; i <= 5; i++) {
-      list.append(i);
-    }
     expect(list.contains(3)).toBe(true);
     expect(list.contains(10)).toBe(false);
 
     expect(emptyList.contains(5)).toBe(false);
   });
 
-  //TODO: find
+  it("returns the index of the given value if it exist, '-1' if the value can't be found", () => {
+    expect(list.findIndex(1)).toBe(0);
+    expect(list.findIndex(2)).toBe(1);
+    expect(list.findIndex(3)).toBe(2);
+    expect(list.findIndex(4)).toBe(3);
+    expect(list.findIndex(5)).toBe(4);
+
+    // value can't be found
+    expect(list.findIndex(22)).toBe(-1);
+  });
+
+  it("prints the linked list", () => {
+    const linkList = "( 1 ) -> ( 2 ) -> ( 3 ) -> ( 4 ) -> ( 5 ) -> ( null )";
+    expect(list.toString()).toEqual(linkList);
+
+    list.append(6);
+    const linkList2 =
+      "( 1 ) -> ( 2 ) -> ( 3 ) -> ( 4 ) -> ( 5 ) -> ( 6 ) -> ( null )";
+    expect(list.toString()).toEqual(linkList2);
+  });
+  it("insert a value at the given index, create null valued nodes to fill the list if the given index is greater than the size", () => {
+    list.insertAt(3, 6);
+    list.insertAt(5, 7);
+    expect(list.at(3)).toBe(6);
+    expect(list.at(5)).toBe(7);
+
+    // given index greater than the list size
+    list.insertAt(8, 8);
+    console.log(list.toString());
+    expect(list.at(7)).toBe(null);
+    expect(list.at(8)).toBe(8);
+  });
 });
