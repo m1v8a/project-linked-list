@@ -36,15 +36,15 @@ class LinkedList {
 
   size() {
     if (!this.root) return 0;
-    let counter = 0;
+    let i = 0;
     let currentRoot = this.root;
 
     while (currentRoot !== null) {
-      counter++;
+      i++;
       currentRoot = currentRoot.next;
     }
 
-    return counter;
+    return i;
   }
 
   head() {
@@ -66,14 +66,14 @@ class LinkedList {
 
   at(index) {
     if (!this.root) return;
-    let counter = 0;
+    let i = 0;
     let currentRoot = this.root;
     while (currentRoot !== null) {
-      if (counter === index) {
+      if (i === index) {
         return currentRoot.value;
       }
 
-      counter++;
+      i++;
       currentRoot = currentRoot.next;
     }
 
@@ -102,13 +102,13 @@ class LinkedList {
 
   findIndex(value) {
     let currentRoot = this.root;
-    let counter = 0;
+    let i = 0;
     while (currentRoot !== null) {
       if (currentRoot.value === value) {
-        return counter;
+        return i;
       }
 
-      counter++;
+      i++;
       currentRoot = currentRoot.next;
     }
 
@@ -133,12 +133,12 @@ class LinkedList {
 
   insertAt(index, ...values) {
     if (!this.root) return;
-    let counter = 0;
+    let i = 0;
     let currentRoot = this.root;
     while (currentRoot !== null) {
-      counter++;
+      i++;
 
-      if (counter === index) {
+      if (i === index) {
         const nodeToMove = currentRoot.next;
         currentRoot.next = new Node(...values);
         currentRoot.next.next = nodeToMove;
@@ -154,7 +154,25 @@ class LinkedList {
   }
 
   removeAt(index) {
-    //TODO
+    if (!this.root) return;
+    let prevRoot = null;
+    let currentRoot = this.root;
+    let nextRoot = null;
+    let i = 0;
+    if (index < 0 || index >= this.size()) {
+      throw new RangeError("index provided is out of range");
+    }
+    while (currentRoot !== null) {
+      if (i === index) {
+        prevRoot.next = nextRoot;
+        return;
+      }
+
+      i += 1;
+      prevRoot = currentRoot;
+      currentRoot = currentRoot.next;
+      nextRoot = currentRoot.next || null;
+    }
   }
 }
 

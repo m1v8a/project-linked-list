@@ -99,8 +99,17 @@ describe("Linked List", () => {
 
     // given index greater than the list size
     list.insertAt(8, 8);
-    console.log(list.toString());
     expect(list.at(7)).toBe(null);
     expect(list.at(8)).toBe(8);
+  });
+
+  it("removes a node at the given index, throws RangeError when the given index less than '0' or greater than the size of the list", () => {
+    list.removeAt(2);
+    expect(list.toString()).toEqual(
+      "( 1 ) -> ( 2 ) -> ( 4 ) -> ( 5 ) -> ( null )",
+    );
+
+    list.removeAt(1);
+    expect(list.toString()).toEqual("( 1 ) -> ( 4 ) -> ( 5 ) -> ( null )");
   });
 });
